@@ -1,7 +1,7 @@
-import { ProductResponseModel } from './../../models/productResponseModel';
+import { ProductService } from './../../services/product.service';
 import { Product } from './../../models/product';
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from '@angular/common/http'
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -10,22 +10,36 @@ import {HttpClient} from '@angular/common/http'
 })
 export class ProductComponent implements OnInit {
   products:Product[]=[];
-
-
-  apiUrl="https://localhost:44302/api/Products/getall";
-
-  constructor(private httpClient:HttpClient) { }
-
+  dataLoaded=false;
+  
+  constructor(private productService:ProductService ,private activedRoute:ActivatedRoute) { }
+  //observable demek yakalamak demek!
   ngOnInit(): void {
-    this.getProduct();
+    this.activedRoute.params.subscribe(params=>{
+      if(params["categoryId"]){
+        this.getProductsByCategory(params["categoryId"]);
+      }else{
+        this.getProducts();
+      }
+    })
   }
 
-  getProduct(){
-    this.httpClient
-    .get<ProductResponseModel>(this.apiUrl)
+  getProducts(){
+    this.productService
+    .getProducts()
     .subscribe(response=>{
-      this.products=response.data
+      this.products=response.data;
+      this.dataLoaded=true;
     });
-  }
+  };
+
+  getProductsByCategory(categoryId:number){
+    this.productService
+    .getProductsByCategory(categoryId)
+    .subscribe(response=>{
+      this.products=response.data;
+      this.dataLoaded=true;
+    });
+  };
 
 }

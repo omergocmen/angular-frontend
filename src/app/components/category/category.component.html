@@ -1,7 +1,13 @@
 <ul class="list-group">
-    <li class="list-group-item">An item</li>
-    <li class="list-group-item">A second item</li>
-    <li class="list-group-item">A third item</li>
-    <li class="list-group-item">A fourth item</li>
-    <li class="list-group-item">And a fifth one</li>
-  </ul>
+
+  <li (click)=clearCurrentCategory() [class]="getAllCategoryClass()" routerLink="/products">Tüm Ürünler</li>
+
+  <li *ngFor="let category of categories" routerLink="/products/category/{{category.categoryId}}"
+    [class]=getCurrentCategory(category) (click)="setCurrentCategory(category)">
+    {{category.categoryName}}
+  </li>
+</ul>
+<span *ngIf="currentCategory" class="badge bg-success">
+  <b>Seçtiğiniz Kategori : </b>
+  {{currentCategory.categoryName}}
+</span>
