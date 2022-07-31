@@ -1,0 +1,17 @@
+<body class="text" >
+    <form class="form-signin" [formGroup]="loginForm">
+        <h5>omer@gmail.com * omer</h5>
+        <h1 class="h3 mb-5 font-weight-normal">Giriş Yap</h1>
+        <div class="mb-3">
+            <label for="inputEmail" class="sr-">E-posta</label>
+            <input type="email" formControlName="email" id="inputEmail" class="form-control" placeholder="E-posta" required autofocus>
+        </div>
+        <div class="mb-3">
+            <label for="inputPassword" class="sr-only">Şifre</label>
+            <input type="password" formControlName="password" id="inputPassword" class="form-control" placeholder="Şifre" required>
+        </div>
+        <div class="checkbox mb-3">
+        </div>
+        <button (click)="login()" class="btn btn-lg btn-success btn-block">Giriş Yap</button>
+    </form>
+</body>
