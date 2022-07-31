@@ -1,7 +1,9 @@
+import { CartService } from './../../services/cart.service';
 import { ProductService } from './../../services/product.service';
 import { Product } from './../../models/product';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Toast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product',
@@ -11,8 +13,14 @@ import { ActivatedRoute } from '@angular/router';
 export class ProductComponent implements OnInit {
   products:Product[]=[];
   dataLoaded=false;
+  filterText="";
   
-  constructor(private productService:ProductService ,private activedRoute:ActivatedRoute) { }
+  constructor
+  (private productService:ProductService
+    ,private activedRoute:ActivatedRoute
+    ,private toastrService:ToastrService
+    ,private cartService:CartService) { }
+
   //observable demek yakalamak demek!
   ngOnInit(): void {
     this.activedRoute.params.subscribe(params=>{
@@ -41,5 +49,10 @@ export class ProductComponent implements OnInit {
       this.dataLoaded=true;
     });
   };
+
+  addToCart(product:Product){
+    this.cartService.addToCart(product);
+    this.toastrService.success(product.productName+" sepete eklendi");
+  }
 
 }
